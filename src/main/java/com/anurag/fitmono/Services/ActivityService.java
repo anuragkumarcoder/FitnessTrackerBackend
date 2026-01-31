@@ -7,7 +7,12 @@ import com.anurag.fitmono.dto.ActivityResponse;
 import com.anurag.fitmono.model.Activity;
 import com.anurag.fitmono.model.User;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -40,5 +45,29 @@ private final UserRepository userRepo;
         activityResponse.setCreatedAt(savedActivity.getCreationTime());
         activityResponse.setUpdateTimeAt(savedActivity.getUpdateTimeAt());
          return activityResponse;
+    }
+
+    public List<ActivityResponse> getUserActivities(String userId) {
+        List<Activity> activityList = activityRepo.findByUserId(userId);
+        List<ActivityResponse> responseList = new ArrayList<>();
+        for (Activity activity : activityList) {
+            ActivityResponse activityResponse = new ActivityResponse();
+            activityResponse.setId(activity.getId());
+            if (activity.getUser() != null) {
+                activityResponse.setUserId(activity.getUser().getId());
+            }
+
+            activityResponse.setType(activity.getType());
+            activityResponse.setDuration(activity.getDuration());
+            activityResponse.setCaloriesBurned(activity.getCaloriesBurned());
+            activityResponse.setStartTimeAt(activity.getStartTimeAt());
+            activityResponse.setAdditionalMetrics(activity.getAdditionalMetrics());
+            activityResponse.setCreatedAt(activity.getCreationTime());
+            activityResponse.setUpdateTimeAt(activity.getUpdateTimeAt());
+
+            responseList.add(activityResponse);
+        }
+
+        return responseList;
     }
 }
