@@ -10,6 +10,9 @@ import com.anurag.fitmono.model.User;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 
@@ -32,5 +35,13 @@ public class RecommendationService {
 
                 Recommendation savedRecommendation=recommendationRepo.save(recommendation);
                 return savedRecommendation;
+    }
+
+    public List<Recommendation> getUserRecommendation(String userId) {
+        return recommendationRepo.findByUserId(userId);
+    }
+
+    public List<Recommendation> getActivityRecommendation(String activityId) {
+        return recommendationRepo.findByActivityId(activityId);
     }
 }
