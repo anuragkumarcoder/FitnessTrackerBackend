@@ -1,4 +1,5 @@
 package com.anurag.fitmono.model;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "fitness_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,20 +28,15 @@ public class User {
     private String firstName;
     private String lastName;
     @Enumerated(EnumType.STRING)
-    private UserRole role =UserRole.USER;
+    private UserRole role = UserRole.USER;
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-    @OneToMany(mappedBy="user",cascade=CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Activity> activities=new ArrayList<>();
-    @OneToMany(mappedBy="user",cascade=CascadeType.ALL,orphanRemoval = true)
+    private List<Activity> activities = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Recommendation> recommendations=new ArrayList<>();
-
-
-
-
-
+    private List<Recommendation> recommendations = new ArrayList<>();
 }
